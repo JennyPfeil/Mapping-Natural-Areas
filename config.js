@@ -14,13 +14,13 @@ const config = {
             type: "checkbox",
             title: "Usage: ",
             columnHeader: "Usage",
-            listItems: ["Walking", "Biking", "Tennis Courts", "Ice Rink", "Sports Fields", "Dog Park", "Zoo", "Farm", "Weekend Market"]
+            listItems: ["Walking", "Cycling", "Tennis Courts", "Skating", "Swimming", "Sports Fields", "Dog Park"]
         },
         {
             type: "checkbox",
             title: "Environment: ",
-            columnHeader: "Environment",
-            listItems: ["Hill", "Open Fields", "Pond", "Wooded", "Ravine", "Small Urban Farm"]
+            columnHeader: "Attributes",
+            listItems: ["Hill", "Open Fields", "Pond", "Wooded", "River", "Lake", "Beach", "Urban Farm"]
         },
         {
             type: "dropdown",
