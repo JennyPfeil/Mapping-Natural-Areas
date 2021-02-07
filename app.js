@@ -48,11 +48,14 @@ function buildLocationList(locationData) {
         listing.className = 'item';
 
         /* Add the link to the individual listing created above. */
-//        const link = listing.appendChild(document.createElement('button'));
-//        link.className = 'title';
-//        link.id = 'link-' + prop.id;
-//        link.innerHTML =
-//            '<p style="line-height: 1.25">' + prop[columnHeaders[0]] + '</p>';
+        const link = listing.appendChild(document.createElement('button'));
+        link.className = 'title';
+        link.id = 'link-' + prop.id;
+        link.innerHTML =
+            '<p style="line-height: 1.25">' + prop[columnHeaders[0]] + '</p>';
+
+        const image = listing.appendChild(document.createElement('img'));
+        image.src="hello"
 
         /* Add details to the individual listing. */
         const details = listing.appendChild(document.createElement('div'));
