@@ -55,7 +55,7 @@ function buildLocationList(locationData) {
             '<p style="line-height: 1.25">' + prop[columnHeaders[0]] + '</p>';
 
         const image = listing.appendChild(document.createElement('img'));
-        image.src="hello"
+        image.src = 'coverimage/' + prop[columnHeaders[1]];
 
         /* Add details to the individual listing. */
         const details = listing.appendChild(document.createElement('div'));
