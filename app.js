@@ -27,9 +27,14 @@ function createPopup(currentFeature) {
     const popups = document.getElementsByClassName('mapboxgl-popup');
     /** Check if there is already a popup on the map and if so, remove it */
     if (popups[0]) popups[0].remove();
+    info = '<h3>' + currentFeature.properties[config.popupInfo[0]] + '</h3>';
+    for (let i = 1; i < columnHeaders.length; i++) {
+    	info += '<p>' + currentFeature.properties[config.popupInfo[i]] + '</p>';
+}
+        
     const popup = new mapboxgl.Popup({ closeOnClick: true })
         .setLngLat(currentFeature.geometry.coordinates)
-        .setHTML('<h3>' + currentFeature.properties[config.popupInfo] + '</h3>')
+        .setHTML(info)
         .addTo(map);
 }
 
