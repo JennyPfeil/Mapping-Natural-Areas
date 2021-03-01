@@ -447,23 +447,39 @@ map.on('load', function () {
                 data.features.forEach(function (data, i) {
                     data.properties.id = i;
                 });
-
                 geojsonData = data;
+                // Add the the layer to the map
+//                map.addLayer({
+//                    id: 'locationData',
+//                    type: 'circle',
+//                    source: {
+//                        type: 'geojson',
+//                        data: geojsonData,
+//                    },
+//                    paint: {
+//                        'circle-radius': 5, // size of circles
+//                        'circle-color': '#3D2E5D', // color of circles
+//                        'circle-stroke-color': 'white',
+//                        'circle-stroke-width': 1,
+//                        'circle-opacity': 0.7
+//                    },
+                file='parkicon.png';
+                map.loadImage(file, function (error, image) {
+                	map.addImage('park', image);
+                });
                 // Add the the layer to the map
                 map.addLayer({
                     id: 'locationData',
-                    type: 'circle',
+                    type: 'symbol',
                     source: {
                         type: 'geojson',
                         data: geojsonData,
                     },
-                    paint: {
-                        'circle-radius': 5, // size of circles
-                        'circle-color': '#3D2E5D', // color of circles
-                        'circle-stroke-color': 'white',
-                        'circle-stroke-width': 1,
-                        'circle-opacity': 0.7,
-                    },
+					'layout': {
+						'icon-image': 'park',
+						'icon-size': 0.10,
+						'icon-allow-overlap': true
+					},
                 });
             }
         );
