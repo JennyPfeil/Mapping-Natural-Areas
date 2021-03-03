@@ -5,7 +5,7 @@
 #filterResults{
     font-size: 12px;
     color: white;
-    background-color: #77e444;
+    background-color: #98E146;
 
 }
 
@@ -57,7 +57,7 @@
 
 ::-webkit-scrollbar-thumb {
     border-radius: 0;
-    background: #395f2a;
+    background: c;
 }
 
 
@@ -85,12 +85,19 @@
   }
 
 .mapboxgl-popup-content h3 {
-    color:rgb(30, 77, 12);
+    color: #395f2a;
     font-weight: 500;
     margin: 0;
     display: block;
 
   }
 
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 50%;
+}
 
   

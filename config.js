@@ -7,8 +7,8 @@ const config = {
     zoom: 11, //Default zoom
     title: "Natural Areas Database",
     description: "You can search by address to sort the list below by distance. You can also filter the park usage, environment and historical significance.",
-    sideBarInfo: ["Name", "Cover Image", "Blurb"],
-    popupInfo: ["Name", "Address", "Blurb"],
+    sideBarInfo: ["Name", "Cover Image", "Address", "Blurb"],
+    popupInfo: ["Name", "Address"],
     filters: [
         {
             type: "checkbox",

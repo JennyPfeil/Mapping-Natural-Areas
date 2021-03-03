@@ -27,11 +27,13 @@ function createPopup(currentFeature) {
     const popups = document.getElementsByClassName('mapboxgl-popup');
     /** Check if there is already a popup on the map and if so, remove it */
     if (popups[0]) popups[0].remove();
+
     info = '<h3>' + currentFeature.properties[config.popupInfo[0]] + '</h3>';
-    for (let i = 1; i < columnHeaders.length; i++) {
-    	info += '<p>' + currentFeature.properties[config.popupInfo[i]] + '</p>';
-}
-        
+//    for (let i = 1; i < columnHeaders.length; i++) {
+//        info += '<p>' + currentFeature.properties[config.popupInfo[i]] + '</p>';
+//    }
+    info += '<p>' + currentFeature.properties[config.popupInfo[1]] + '</p>';
+
     const popup = new mapboxgl.Popup({ closeOnClick: true })
         .setLngLat(currentFeature.geometry.coordinates)
         .setHTML(info)
@@ -52,18 +54,28 @@ function buildLocationList(locationData) {
         /* Assign the `item` class to each listing for styling. */
         listing.className = 'item';
 
+        //create columns in sidebar
+        listing.classList.add('row');
+        leftSide = listing.appendChild(document.createElement('div'));
+        leftSide.className = 'column';
+        leftSide.style = 'margin-bottom: 5px';
+
+        image = leftSide.appendChild(document.createElement('img'));
+        image.src = 'coverimage/' + prop[columnHeaders[1]];
+
+        rightSide = listing.appendChild(document.createElement('div'));
+        rightSide.style = 'margin-left: 5px;';
+        rightSide.className = 'column';
+
         /* Add the link to the individual listing created above. */
-        const link = listing.appendChild(document.createElement('button'));
+        const link = rightSide.appendChild(document.createElement('button'));
         link.className = 'title';
         link.id = 'link-' + prop.id;
         link.innerHTML =
             '<p style="line-height: 1.25">' + prop[columnHeaders[0]] + '</p>';
 
-        const image = listing.appendChild(document.createElement('img'));
-        image.src = 'coverimage/' + prop[columnHeaders[1]];
-
         /* Add details to the individual listing. */
-        const details = listing.appendChild(document.createElement('div'));
+        const details = rightSide.appendChild(document.createElement('div'));
         details.className = 'content';
 
         for (let i = 2; i < columnHeaders.length; i++) {
