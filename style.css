@@ -46,10 +46,9 @@
 }
 
 .listings .item {
-    font-size: 14px;
     word-wrap: break-word;
     text-decoration: none;
-    border-bottom: solid #395f2a 1px;
+    border-bottom: solid #395f2a 2px;
 }
 
 .listings .item:last-child {
@@ -59,12 +58,12 @@
 .listings .item .title {
     display: inline-block;
     width: 100%;
+    font-size: 14px;
     color: #395f2a;
     font-weight: 800;
     margin-top: 5px;
     text-decoration: none;
 }
-
 
 ::-webkit-scrollbar {
     width: 3px;

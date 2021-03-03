@@ -6,7 +6,7 @@ const config = {
     center: [-79.39775965337452,43.663461999999996], //Lng, Lat
     zoom: 11, //Default zoom
     title: "Natural Areas Database",
-    description: "You can search by address to sort the list below by distance. You can also filter the park usage, environment and historical significance.",
+    description: "Find the space that best fits you! Search through our natural areas database by filtering various park attributes below.",
     sideBarInfo: ["Name", "Cover Image", "Address", "Blurb"],
     popupInfo: ["Name", "Address"],
     filters: [

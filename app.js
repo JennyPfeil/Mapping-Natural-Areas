@@ -75,15 +75,18 @@ function buildLocationList(locationData) {
             '<p style="line-height: 1.25">' + prop[columnHeaders[0]] + '</p>';
 
         /* Add details to the individual listing. */
-        const details = rightSide.appendChild(document.createElement('div'));
-        details.className = 'content';
+        const details1 = rightSide.appendChild(document.createElement('div'));
+        details1.innerHTML += '<p style="color: #7F7F7F;">'+ prop[columnHeaders[2]] + '</p>';
 
-        for (let i = 2; i < columnHeaders.length; i++) {
-            const div = document.createElement('div');
-            div.innerText += prop[columnHeaders[i]];
-            div.className;
-            details.appendChild(div);
-        }
+        const details2 = rightSide.appendChild(document.createElement('div'));
+        details2.innerHTML += '<p style="color: #000000;">'+ prop[columnHeaders[3]] + '</p>';
+
+//        for (let i = 2; i < columnHeaders.length; i++) {
+//            const div = document.createElement('div');
+//            div.innerText += prop[columnHeaders[i]];
+//            div.className;
+//            details.appendChild(div);
+//        }
 
         link.addEventListener('click', function () {
             const clickedListing = location.geometry.coordinates;
