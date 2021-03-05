@@ -11,6 +11,15 @@ const config = {
     popupInfo: ["Name", "Address"],
     filters: [
         {
+            type: "dropdown",
+            title: "Size Categorization: ",
+            columnHeader: "Subsize",
+            listItems: [
+                'Park',
+                'Parkette'
+            ]
+        },
+        {
             type: "checkbox",
             title: "Usage: ",
             columnHeader: "Usage",
@@ -22,20 +31,6 @@ const config = {
             columnHeader: "Attributes",
             listItems: ["Hill", "Open Fields", "Pond", "Wooded", "River", "Lake", "Beach", "Urban Farm"]
         },
-        {
-            type: "dropdown",
-            title: "Title of filter: ",
-            columnHeader: "Column Name",
-            listItems: [
-                'filter one',
-                'filter two',
-                'filter three',
-                'filter four',
-                'filter five',
-                'filter six',
-                'filter seven'
-            ]
-        }
     ]
 
 };
