@@ -16,7 +16,7 @@ const config = {
             columnHeader: "Subsize",
             listItems: [
                 'Park',
-                'Parkette'
+                'Urban Natural Space'
             ]
         },
         {
