@@ -70,7 +70,7 @@ function buildLocationList(locationData) {
         /* Add the link to the individual listing created above. */
         const link = rightSide.appendChild(document.createElement('button'));
         link.className = 'title';
-        link.id = 'link-' + prop.id;
+        link.id = 'innerlink-' + prop.id;
         link.innerHTML =
             '<p style="line-height: 1.25">' + prop[columnHeaders[0]] + '</p>';
 
@@ -80,6 +80,7 @@ function buildLocationList(locationData) {
 
         const details2 = rightSide.appendChild(document.createElement('div'));
         details2.innerHTML += '<p style="color: #000000;">'+ prop[columnHeaders[3]] + '</p>';
+        details2.innerHTML += '<a href="homepage.html">More Info</a>';
 
 //        for (let i = 2; i < columnHeaders.length; i++) {
 //            const div = document.createElement('div');
