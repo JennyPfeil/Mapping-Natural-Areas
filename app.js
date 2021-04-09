@@ -61,7 +61,7 @@ function buildLocationList(locationData) {
         leftSide.style = 'margin-bottom: 5px';
 
         image = leftSide.appendChild(document.createElement('img'));
-        image.src = 'coverimage/' + prop[columnHeaders[1]];
+        image.src = 'coverimages/' + prop[columnHeaders[1]];
 
         rightSide = listing.appendChild(document.createElement('div'));
         rightSide.style = 'margin-left: 5px;';
