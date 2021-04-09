@@ -7,7 +7,7 @@ const config = {
     zoom: 11, //Default zoom
     title: "Natural Areas Database",
     description: "Find the space that best fits you! Search through our natural areas database by filtering various park attributes below.",
-    sideBarInfo: ["Name", "Cover Image", "Address", "Blurb"],
+    sideBarInfo: ["Name", "Cover Image", "Address", "Blurb", "Subpage"],
     popupInfo: ["Name", "Address"],
     filters: [
         {

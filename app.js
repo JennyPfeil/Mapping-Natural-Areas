@@ -72,22 +72,15 @@ function buildLocationList(locationData) {
         link.className = 'title';
         link.id = 'innerlink-' + prop.id;
         link.innerHTML =
-            '<p style="line-height: 1.25">' + prop[columnHeaders[0]] + '</p>';
+            '<p style="line-height: 1.25">' + prop[columnHeaders[0]] +'</p>';
 
         /* Add details to the individual listing. */
         const details1 = rightSide.appendChild(document.createElement('div'));
-        details1.innerHTML += '<p style="color: #7F7F7F;">'+ prop[columnHeaders[2]] + '</p>';
+        details1.innerHTML += '<p style="color: #7F7F7F;">'+ prop[columnHeaders[2]] +'</p>';
 
         const details2 = rightSide.appendChild(document.createElement('div'));
-        details2.innerHTML += '<p style="color: #000000;">'+ prop[columnHeaders[3]] + '</p>';
-        details2.innerHTML += '<a href="homepage.html">More Info</a>';
-
-//        for (let i = 2; i < columnHeaders.length; i++) {
-//            const div = document.createElement('div');
-//            div.innerText += prop[columnHeaders[i]];
-//            div.className;
-//            details.appendChild(div);
-//        }
+        details2.innerHTML += '<p style="color: #000000;">'+ prop[columnHeaders[3]] +'</p>';
+        details2.innerHTML += '<a href= '+ prop[columnHeaders[4]] +' > More Info </a>';
 
         link.addEventListener('click', function () {
             const clickedListing = location.geometry.coordinates;
