@@ -1,32 +1,33 @@
 #sidebarA{
-    color: white;
+    color: #fff;
+}
+
+#body{
+    width: 100%;
+    height: 100%;
 }
 
 #filterResults{
-    font-size: 12px;
-    color: white;
-    background-color: #98E146;
+font-weight:700;
+background-color:#98E146;
+font-size:12px;
+color:#fff;
+border-radius:18px;
+padding:6px 36px;
+text-align:center;
+transition:bacortant}
 }
 
 .button{display:inline-block;
 font-weight:700;
-background-color:#4CAF50;
+background-color:#98E146;
 font-size:12px;
 color:#fff;
 border-radius:18px;
 padding:6px 18px;
 text-align:center;
-transition:bacortant}
-
-/*.btn {
-  background-color: #98E146;
-  border: none;
-  color: #000;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;*/
+transition:bacortant
+}
 
 /* Style the top navigation bar */
 .topnav {
@@ -88,7 +89,7 @@ transition:bacortant}
     width: 3px;
     height: 3px;
     border-left: 0;
-    background: rgba(0, 0, 0, 0.1);
+    background:#333;
 }
 
 ::-webkit-scrollbar-track {

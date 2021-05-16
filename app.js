@@ -32,7 +32,7 @@ function createPopup(currentFeature) {
 //    for (let i = 1; i < columnHeaders.length; i++) {
 //        info += '<p>' + currentFeature.properties[config.popupInfo[i]] + '</p>';
 //    }
-    info += '<p>' + currentFeature.properties[config.popupInfo[1]] + '</p>';
+//    info += '<p>' + currentFeature.properties[config.popupInfo[1]] + '</p>';
 
     const popup = new mapboxgl.Popup({ closeOnClick: true })
         .setLngLat(currentFeature.geometry.coordinates)
@@ -457,26 +457,38 @@ map.on('load', function () {
                     data.properties.id = i;
                 });
                 geojsonData = data;
+                file='parkicon.png';
+                map.loadImage(file, function (error, image) {
+                	map.addImage('Park', image);
+                });
+                geojsonData = data;
+                file='urbanparkicon.png';
+                map.loadImage(file, function (error, image) {
+                	map.addImage('Urban Park', image);
+                });
+                geojsonData = data;
+                file='pocketparkicon.png';
+                map.loadImage(file, function (error, image) {
+                	map.addImage('Pocket Park', image);
+                });
+
+
                 // Add the the layer to the map
 //                map.addLayer({
 //                    id: 'locationData',
-//                    type: 'circle',
+//                    type: 'symbol',
 //                    source: {
 //                        type: 'geojson',
 //                        data: geojsonData,
 //                    },
-//                    paint: {
-//                        'circle-radius': 5, // size of circles
-//                        'circle-color': '#3D2E5D', // color of circles
-//                        'circle-stroke-color': 'white',
-//                        'circle-stroke-width': 1,
-//                        'circle-opacity': 0.7
-//                    },
-                file='parkicon.png';
-                map.loadImage(file, function (error, image) {
-                	map.addImage('park', image);
-                });
-                // Add the the layer to the map
+//					'layout': {
+//						'icon-image': 'park',
+//						'icon-size': 0.10,
+//						'icon-allow-overlap': true
+//					},
+//                });
+
+                // Add second layer to the map
                 map.addLayer({
                     id: 'locationData',
                     type: 'symbol',
@@ -485,7 +497,7 @@ map.on('load', function () {
                         data: geojsonData,
                     },
 					'layout': {
-						'icon-image': 'park',
+						'icon-image': ['get','Subsize'],
 						'icon-size': 0.10,
 						'icon-allow-overlap': true
 					},

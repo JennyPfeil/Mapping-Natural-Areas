@@ -8,28 +8,49 @@ const config = {
     title: "Natural Areas Database",
     description: "Find the space that best fits you! Search through our natural areas database by filtering various park attributes below.",
     sideBarInfo: ["Name", "Cover Image", "Address", "Blurb", "Subpage"],
-    popupInfo: ["Name", "Address"],
+    popupInfo: ["Name"],
     filters: [
         {
-            type: "dropdown",
-            title: "Size Categorization: ",
+            type: "checkbox",
+            title: "Size Categorization:",
             columnHeader: "Subsize",
-            listItems: [
-                'Park',
-                'Urban Natural Space'
-            ]
+            listItems: ["Pocket Park", "Urban Park", "Park"]
         },
         {
             type: "checkbox",
-            title: "Usage: ",
+            title: "Environment:",
+            columnHeader: "Subsize",
+            listItems: ["Open Field", "Dense Tree Coverage", "Grouping of Trees", "Pond", "Hill", "Ravine"]
+        },
+        {
+            type: "checkbox",
+            title: "Usage:",
             columnHeader: "Usage",
-            listItems: ["Walking", "Cycling", "Tennis Courts", "Skating", "Swimming", "Sports Fields", "Dog Park"]
+            listItems: ["Cycling Trails", "Hiking Trails", "Dog Park", "Picnic Tables", "Benches"]
         },
         {
             type: "checkbox",
-            title: "Environment: ",
-            columnHeader: "Attributes",
-            listItems: ["Hill", "Open Fields", "Pond", "Wooded", "River", "Lake", "Beach", "Urban Farm"]
+            title: "Infustructure:",
+            columnHeader: "Infustructure",
+            listItems: ["Sports Facilites", "Zoo", "Farm", "Farmer Market", "Plant Conservatory", "Public Art", "Playground", "None"]
+        },
+        {
+            type: "checkbox",
+            title: "Sports Facilities: ",
+            columnHeader: "Sports Facilities",
+            listItems: ["Tennis Court", "Baseball Diamond", "Ice Skating Rink", "Soccer Field", "Skating Park", "Swimming Pool", "Track Field", "Volleyball Court", "Bocce Court", "Cricket Field"]
+        },
+        {
+            type: "checkbox",
+            title: "Iconic Wildlife:",
+            columnHeader: "Iconic Wildlife",
+            listItems: ["Swan", "Beaver", "None"]
+        },
+        {
+            type: "checkbox",
+            title: "Iconic Plants:",
+            columnHeader: "Iconic Plants",
+            listItems: ["Cherry Blossom Tree", "Magnolia Tree", "None"]
         },
     ]
 
