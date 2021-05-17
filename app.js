@@ -29,10 +29,6 @@ function createPopup(currentFeature) {
     if (popups[0]) popups[0].remove();
 
     info = '<h3>' + currentFeature.properties[config.popupInfo[0]] + '</h3>';
-//    for (let i = 1; i < columnHeaders.length; i++) {
-//        info += '<p>' + currentFeature.properties[config.popupInfo[i]] + '</p>';
-//    }
-//    info += '<p>' + currentFeature.properties[config.popupInfo[1]] + '</p>';
 
     const popup = new mapboxgl.Popup({ closeOnClick: true })
         .setLngLat(currentFeature.geometry.coordinates)
@@ -472,23 +468,6 @@ map.on('load', function () {
                 	map.addImage('Pocket Park', image);
                 });
 
-
-                // Add the the layer to the map
-//                map.addLayer({
-//                    id: 'locationData',
-//                    type: 'symbol',
-//                    source: {
-//                        type: 'geojson',
-//                        data: geojsonData,
-//                    },
-//					'layout': {
-//						'icon-image': 'park',
-//						'icon-size': 0.10,
-//						'icon-allow-overlap': true
-//					},
-//                });
-
-                // Add second layer to the map
                 map.addLayer({
                     id: 'locationData',
                     type: 'symbol',

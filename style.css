@@ -8,25 +8,9 @@
 }
 
 #filterResults{
-font-weight:700;
-background-color:#98E146;
-font-size:12px;
-color:#fff;
-border-radius:18px;
-padding:6px 36px;
-text-align:center;
-transition:bacortant}
-}
-
-.button{display:inline-block;
-font-weight:700;
-background-color:#98E146;
-font-size:12px;
-color:#fff;
-border-radius:18px;
-padding:6px 18px;
-text-align:center;
-transition:bacortant
+    font-size: 12px;
+    color: white;
+    background-color: #77e444;
 }
 
 /* Style the top navigation bar */
@@ -89,7 +73,7 @@ transition:bacortant
     width: 3px;
     height: 3px;
     border-left: 0;
-    background:#333;
+    background:#E5E5E5;
 }
 
 ::-webkit-scrollbar-track {
@@ -98,9 +82,8 @@ transition:bacortant
 
 ::-webkit-scrollbar-thumb {
     border-radius: 0;
-    background: c;
+    background: #395f2a 1px;
 }
-
 
 .clearfix {
     display: block;
