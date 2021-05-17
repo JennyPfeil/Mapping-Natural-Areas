@@ -13,13 +13,11 @@
     background-color: #77e444;
 }
 
-/* Style the top navigation bar */
 .topnav {
   overflow: hidden;
   background-color: #333;
 }
 
-/* Style the topnav links */
 .topnav a {
   float: left;
   display: block;
@@ -113,7 +111,6 @@
     font-weight: 500;
     margin: 0;
     display: block;
-
   }
 
 .row {
