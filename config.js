@@ -19,8 +19,8 @@ const config = {
         {
             type: "checkbox",
             title: "Environment:",
-            columnHeader: "Subsize",
-            listItems: ["Open Field", "Dense Tree Coverage", "Grouping of Trees", "Pond", "Hill", "Ravine"]
+            columnHeader: "Environment",
+            listItems: ["Open Field", "Dense Tree Coverage", "Groupings of Trees", "Pond", "Hill", "Ravine"]
         },
         {
             type: "checkbox",
