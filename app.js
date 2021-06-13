@@ -13,13 +13,16 @@ const map = new mapboxgl.Map({
     style: config.style,
     center: config.center,
     zoom: config.zoom,
-    transformRequest: transformRequest,
+    //transformRequest: transformRequest,
 });
+
+
+// basic nav functions
 
 function flyToLocation(currentFeature) {
     map.flyTo({
         center: currentFeature,
-        zoom: 11,
+        zoom: 15,
     });
 }
 
@@ -37,6 +40,37 @@ function createPopup(currentFeature) {
         .setHTML(info)
         .addTo(map);
 }
+
+function goToLocation(location) {
+    const clickedListing = location.geometry.coordinates;
+    flyToLocation(clickedListing);
+    createPopup(location);
+
+    const activeItem = document.getElementsByClassName('active');
+    if (activeItem[0]) {
+        activeItem[0].classList.remove('active');
+    }
+    this.parentNode.classList.add('active');
+
+    const divList = document.querySelectorAll('.content');
+    const divCount = divList.length;
+    for (i = 0; i < divCount; i++) {
+        divList[i].style.maxHeight = null;
+    }
+
+    for (let i = 0; i < geojsonData.features.length; i++) {
+        this.parentNode.classList.remove('active');
+        this.classList.toggle('active');
+        const content = this.nextElementSibling;
+        if (content.style.maxHeight) {
+            content.style.maxHeight = null;
+        } else {
+            content.style.maxHeight = content.scrollHeight + 'px';
+        }
+    }
+}
+
+// setup functions
 
 function buildLocationList(locationData) {
     /* Add a new listing section to the sidebar. */
@@ -59,10 +93,10 @@ function buildLocationList(locationData) {
         link.innerHTML =
             '<p style="line-height: 1.25">' + prop[columnHeaders[0]] + '</p>';
 
+        /* Add an image + other details to the individual listing. */
         const image = listing.appendChild(document.createElement('img'));
         image.src = 'coverimage/' + prop[columnHeaders[1]];
 
-        /* Add details to the individual listing. */
         const details = listing.appendChild(document.createElement('div'));
         details.className = 'content';
 
@@ -73,74 +107,10 @@ function buildLocationList(locationData) {
             details.appendChild(div);
         }
 
-        link.addEventListener('click', function () {
-            const clickedListing = location.geometry.coordinates;
-            flyToLocation(clickedListing);
-            createPopup(location);
-
-            const activeItem = document.getElementsByClassName('active');
-            if (activeItem[0]) {
-                activeItem[0].classList.remove('active');
-            }
-            this.parentNode.classList.add('active');
-
-            const divList = document.querySelectorAll('.content');
-            const divCount = divList.length;
-            for (i = 0; i < divCount; i++) {
-                divList[i].style.maxHeight = null;
-            }
-
-            for (let i = 0; i < geojsonData.features.length; i++) {
-                this.parentNode.classList.remove('active');
-                this.classList.toggle('active');
-                const content = this.nextElementSibling;
-                if (content.style.maxHeight) {
-                    content.style.maxHeight = null;
-                } else {
-                    content.style.maxHeight = content.scrollHeight + 'px';
-                }
-            }
-        });
+        /* Link listing to location on click*/
+        link.addEventListener('click', goToLocation.bind(null, location));
     });
-}
-
-// Build dropdown list function
-// title - the name or 'category' of the selection e.g. 'Languages: '
-// defaultValue - the default option for the dropdown list
-// listItems - the array of filter items
-
-function buildDropDownList(title, listItems) {
-    const filtersDiv = document.getElementById('filters');
-    const mainDiv = document.createElement('div');
-    const filterTitle = document.createElement('h3');
-    filterTitle.innerText = title;
-    filterTitle.classList.add('py12', 'txt-bold');
-    mainDiv.appendChild(filterTitle);
-
-    const selectContainer = document.createElement('div');
-    selectContainer.classList.add('select-container', 'center');
-
-    const dropDown = document.createElement('select');
-    dropDown.classList.add('select', 'filter-option');
-
-    const selectArrow = document.createElement('div');
-    selectArrow.classList.add('select-arrow');
-
-    const firstOption = document.createElement('option');
-
-    dropDown.appendChild(firstOption);
-    selectContainer.appendChild(dropDown);
-    selectContainer.appendChild(selectArrow);
-    mainDiv.appendChild(selectContainer);
-
-    for (let i = 0; i < listItems.length; i++) {
-        const opt = listItems[i];
-        const el1 = document.createElement('option');
-        el1.textContent = opt;
-        el1.value = opt;
-        dropDown.appendChild(el1);
-    }
-    filtersDiv.appendChild(mainDiv);
+    initialZoom(locationData);
 }
 
 // Build checkbox function
@@ -197,6 +167,17 @@ function buildCheckbox(title, listItems) {
         formatcontainer.appendChild(container);
     }
     filtersDiv.appendChild(mainDiv);
+}
+
+function initialZoom(locationData){
+    let params = new URLSearchParams((document.location.search.substring(1)));
+    let lat = params.get("lat");
+    let lon = params.get("lon");
+    locationData.features.forEach(function (location, i) {
+        if (location.geometry.coordinates[0] == lon && location.geometry.coordinates[1] == lat) {
+            goToLocation(location);
+        }
+    });
 }
 
 const selectFilters = [];
@@ -329,11 +310,7 @@ function applyFilters() {
 
 function filters(filterSettings) {
     filterSettings.forEach(function (filter) {
-        if (filter.type === 'checkbox') {
-            buildCheckbox(filter.title, filter.listItems);
-        } else if (filter.type === 'dropdown') {
-            buildDropDownList(filter.title, filter.listItems);
-        }
+        buildCheckbox(filter.title, filter.listItems);
     });
 }
 
@@ -524,11 +501,17 @@ title.innerText = config.title;
 const description = document.getElementById('description');
 description.innerText = config.description;
 
-function transformRequest(url, resourceType) {
+function startupZoom() {
+    var url = window.location.href;
+    var parts = url.split("?"); //separate out query strings
+    //use query strings to find a feature name, open popup/zoom on that feature
+}
+
+/*function transformRequest(url, resourceType) {
     var isMapboxRequest =
         url.slice(8, 22) === 'api.mapbox.com' ||
         url.slice(10, 26) === 'tiles.mapbox.com';
     return {
         url: isMapboxRequest ? url.replace('?', '?pluginName=finder&') : url,
     };
-}
+ }*/
