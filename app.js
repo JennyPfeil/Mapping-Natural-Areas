@@ -16,62 +16,9 @@ const map = new mapboxgl.Map({
     //transformRequest: transformRequest,
 });
 
+// GENERATING THE PAGE (setting up HTML)
 
-// basic nav functions
-
-function flyToLocation(currentFeature) {
-    map.flyTo({
-        center: currentFeature,
-        zoom: 15,
-    });
-}
-
-function createPopup(currentFeature) {
-    const popups = document.getElementsByClassName('mapboxgl-popup');
-    /** Check if there is already a popup on the map and if so, remove it */
-    if (popups[0]) popups[0].remove();
-    info = '<h3>' + currentFeature.properties[config.popupInfo[0]] + '</h3>';
-    for (let i = 1; i < columnHeaders.length; i++) {
-    	info += '<p>' + currentFeature.properties[config.popupInfo[i]] + '</p>';
-}
-        
-    const popup = new mapboxgl.Popup({ closeOnClick: true })
-        .setLngLat(currentFeature.geometry.coordinates)
-        .setHTML(info)
-        .addTo(map);
-}
-
-function goToLocation(location) {
-    const clickedListing = location.geometry.coordinates;
-    flyToLocation(clickedListing);
-    createPopup(location);
-
-    const activeItem = document.getElementsByClassName('active');
-    if (activeItem[0]) {
-        activeItem[0].classList.remove('active');
-    }
-    this.parentNode.classList.add('active');
-
-    const divList = document.querySelectorAll('.content');
-    const divCount = divList.length;
-    for (i = 0; i < divCount; i++) {
-        divList[i].style.maxHeight = null;
-    }
-
-    for (let i = 0; i < geojsonData.features.length; i++) {
-        this.parentNode.classList.remove('active');
-        this.classList.toggle('active');
-        const content = this.nextElementSibling;
-        if (content.style.maxHeight) {
-            content.style.maxHeight = null;
-        } else {
-            content.style.maxHeight = content.scrollHeight + 'px';
-        }
-    }
-}
-
-// setup functions
-
+/** Builds the sidebar (list of all locations) based on input data */
 function buildLocationList(locationData) {
     /* Add a new listing section to the sidebar. */
     const listings = document.getElementById('listings');
@@ -113,18 +60,17 @@ function buildLocationList(locationData) {
     initialZoom(locationData);
 }
 
-// Build checkbox function
-// title - the name or 'category' of the selection e.g. 'Languages: '
-// listItems - the array of filter items
+/** Builds the filter list */
 // To DO: Clean up code - for every third checkbox, create a div and append new checkboxes to it
+function buildFilterList(title, listItems) {
 
-function buildCheckbox(title, listItems) {
+    /* setting up general HTML skeleton */
     const filtersDiv = document.getElementById('filters');
     const mainDiv = document.createElement('div');
     const filterTitle = document.createElement('div');
-    const formatcontainer = document.createElement('div');
     filterTitle.classList.add('center', 'flex-parent', 'py12', 'txt-bold');
-    formatcontainer.classList.add(
+    const formatContainer = document.createElement('div');
+    formatContainer.classList.add(
         'center',
         'flex-parent',
         'flex-parent--column',
@@ -141,8 +87,16 @@ function buildCheckbox(title, listItems) {
     );
     filterTitle.innerText = title;
     mainDiv.appendChild(filterTitle);
-    mainDiv.appendChild(formatcontainer);
+    mainDiv.appendChild(formatContainer);
 
+    /* adding the actual filters */
+    buildCheckboxes(listItems, formatContainer);
+
+    filtersDiv.appendChild(mainDiv);
+}
+
+/** Transmutes a list of filters into a nexted checknoxes */
+function buildCheckboxes (listItems, formatContainer) {
     for (let i = 0; i < listItems.length; i++) {
         const container = document.createElement('label');
 
@@ -164,9 +118,62 @@ function buildCheckbox(title, listItems) {
         container.appendChild(checkboxDiv);
         container.appendChild(inputValue);
 
-        formatcontainer.appendChild(container);
+        formatContainer.appendChild(container);
     }
-    filtersDiv.appendChild(mainDiv);
+}
+
+
+// basic nav functions
+
+function flyToLocation(currentFeature) {
+    map.flyTo({
+        center: currentFeature,
+        zoom: 15,
+    });
+}
+
+function createPopup(currentFeature) {
+    const popups = document.getElementsByClassName('mapboxgl-popup');
+    // Check if there is already a popup on the map and if so, remove it
+    if (popups[0]) popups[0].remove();
+    info = '<h3>' + currentFeature.properties[config.popupInfo[0]] + '</h3>';
+    for (let i = 1; i < columnHeaders.length; i++) {
+    	info += '<p>' + currentFeature.properties[config.popupInfo[i]] + '</p>';
+}
+        
+    const popup = new mapboxgl.Popup({ closeOnClick: true })
+        .setLngLat(currentFeature.geometry.coordinates)
+        .setHTML(info)
+        .addTo(map);
+}
+
+function goToLocation(location) {
+    const clickedListing = location.geometry.coordinates;
+    flyToLocation(clickedListing);
+    createPopup(location);
+
+    const activeItem = document.getElementsByClassName('active');
+    if (activeItem[0]) {
+        activeItem[0].classList.remove('active');
+    }
+    this.parentNode.classList.add('active');
+
+    const divList = document.querySelectorAll('.content');
+    const divCount = divList.length;
+    for (i = 0; i < divCount; i++) {
+        divList[i].style.maxHeight = null;
+    }
+
+    for (let i = 0; i < geojsonData.features.length; i++) {
+        this.parentNode.classList.remove('active');
+        this.classList.toggle('active');
+        const content = this.nextElementSibling;
+        if (content.style.maxHeight) {
+            content.style.maxHeight = null;
+        } else {
+            content.style.maxHeight = content.scrollHeight + 'px';
+        }
+    }
 }
 
 function initialZoom(locationData){
@@ -174,7 +181,8 @@ function initialZoom(locationData){
     let lat = params.get("lat");
     let lon = params.get("lon");
     locationData.features.forEach(function (location, i) {
-        if (location.geometry.coordinates[0] == lon && location.geometry.coordinates[1] == lat) {
+        if (location.geometry.coordinates[0] + 0.0001 >= lon && location.geometry.coordinates[1] + 0.0001 >= lat &&
+            location.geometry.coordinates[0] - 0.0001 <= lon && location.geometry.coordinates[1] - 0.0001 <= lat) {
             goToLocation(location);
         }
     });
@@ -310,7 +318,7 @@ function applyFilters() {
 
 function filters(filterSettings) {
     filterSettings.forEach(function (filter) {
-        buildCheckbox(filter.title, filter.listItems);
+        buildFilterList(filter.title, filter.listItems);
     });
 }
 
@@ -500,6 +508,36 @@ const title = document.getElementById('title');
 title.innerText = config.title;
 const description = document.getElementById('description');
 description.innerText = config.description;
+
+
+// Generates and returns a link for a given location that can be embedded in a social media share link
+function get_location_link(currentLocation) {
+    var link = window.location.href;
+
+    // Convert link into information that can be embedded into another link
+    while (link.contains("/")) {
+        link.replace("/", "%2F");
+    }
+    while (link.contains(":")) {
+        link.replace(":", "%3A");
+    }
+    if (link.contains("?")) {
+        while (link.contains("?")) {
+            link.replace("?", "%3F");
+        }
+        link += "%26";
+    } else {
+        link += "CODE";
+    }
+
+    // Add location data
+    link += "lat%3D";
+    link += currentLocation.geometry.coordinates[1];
+    link += "%26lon%3D";
+    link += currentLocation.geometry.coordinates[0];
+
+    return link;
+}
 
 function startupZoom() {
     var url = window.location.href;
