@@ -13,10 +13,10 @@ const map = new mapboxgl.Map({
     style: config.style,
     center: config.center,
     zoom: config.zoom,
-    //transformRequest: transformRequest,
+    transformRequest: transformRequest,
 });
 
-// GENERATING THE PAGE (setting up HTML)
+// SIDEBAR
 
 /** Builds the sidebar (list of all locations) based on input data */
 function buildLocationList(locationData) {
@@ -60,7 +60,18 @@ function buildLocationList(locationData) {
     initialZoom(locationData);
 }
 
-/** Builds the filter list */
+// FILTERS
+
+// setting up filters
+
+/** Sets up the full filter list */
+function filters(filterSettings) {
+    filterSettings.forEach(function (filter) {
+        buildFilterList(filter.title, filter.listItems);
+    });
+}
+
+/** Builds a filter sublist */
 // To DO: Clean up code - for every third checkbox, create a div and append new checkboxes to it
 function buildFilterList(title, listItems) {
 
@@ -95,21 +106,21 @@ function buildFilterList(title, listItems) {
     filtersDiv.appendChild(mainDiv);
 }
 
-/** Transmutes a list of filters into a nexted checknoxes */
+/** Transmutes a list of filters into a nested checkboxes */
 function buildCheckboxes (listItems, formatContainer) {
     for (let i = 0; i < listItems.length; i++) {
-        const container = document.createElement('label');
+        let container = document.createElement('label');
 
         container.classList.add('checkbox-container');
 
-        const input = document.createElement('input');
+        let input = document.createElement('input');
         input.classList.add('px12', 'filter-option');
         input.setAttribute('type', 'checkbox');
         input.setAttribute('id', listItems[i]);
         input.setAttribute('value', listItems[i]);
 
-        const checkboxDiv = document.createElement('div');
-        const inputValue = document.createElement('p');
+        let checkboxDiv = document.createElement('div');
+        let inputValue = document.createElement('p');
         inputValue.innerText = listItems[i];
         checkboxDiv.classList.add('checkbox', 'mr6');
         checkboxDiv.appendChild(Assembly.createIcon('check'));
@@ -122,97 +133,22 @@ function buildCheckboxes (listItems, formatContainer) {
     }
 }
 
-
-// basic nav functions
-
-function flyToLocation(currentFeature) {
-    map.flyTo({
-        center: currentFeature,
-        zoom: 15,
-    });
-}
-
-function createPopup(currentFeature) {
-    const popups = document.getElementsByClassName('mapboxgl-popup');
-    // Check if there is already a popup on the map and if so, remove it
-    if (popups[0]) popups[0].remove();
-    info = '<h3>' + currentFeature.properties[config.popupInfo[0]] + '</h3>';
-    for (let i = 1; i < columnHeaders.length; i++) {
-    	info += '<p>' + currentFeature.properties[config.popupInfo[i]] + '</p>';
-}
-        
-    const popup = new mapboxgl.Popup({ closeOnClick: true })
-        .setLngLat(currentFeature.geometry.coordinates)
-        .setHTML(info)
-        .addTo(map);
-}
-
-function goToLocation(location) {
-    const clickedListing = location.geometry.coordinates;
-    flyToLocation(clickedListing);
-    createPopup(location);
-
-    const activeItem = document.getElementsByClassName('active');
-    if (activeItem[0]) {
-        activeItem[0].classList.remove('active');
-    }
-    this.parentNode.classList.add('active');
-
-    const divList = document.querySelectorAll('.content');
-    const divCount = divList.length;
-    for (i = 0; i < divCount; i++) {
-        divList[i].style.maxHeight = null;
-    }
-
-    for (let i = 0; i < geojsonData.features.length; i++) {
-        this.parentNode.classList.remove('active');
-        this.classList.toggle('active');
-        const content = this.nextElementSibling;
-        if (content.style.maxHeight) {
-            content.style.maxHeight = null;
-        } else {
-            content.style.maxHeight = content.scrollHeight + 'px';
-        }
-    }
-}
-
-function initialZoom(locationData){
-    let params = new URLSearchParams((document.location.search.substring(1)));
-    let lat = params.get("lat");
-    let lon = params.get("lon");
-    locationData.features.forEach(function (location, i) {
-        if (location.geometry.coordinates[0] + 0.0001 >= lon && location.geometry.coordinates[1] + 0.0001 >= lat &&
-            location.geometry.coordinates[0] - 0.0001 <= lon && location.geometry.coordinates[1] - 0.0001 <= lat) {
-            goToLocation(location);
-        }
-    });
-}
-
 const selectFilters = [];
 const checkboxFilters = [];
 
+/** Setting up filter functionality*/
 function createFilterObject(filterSettings) {
     filterSettings.forEach(function (filter) {
-        if (filter.type === 'checkbox') {
-            columnHeader = filter.columnHeader;
-            listItems = filter.listItems;
+        let columnHeader = filter.columnHeader;
+        let listItems = filter.listItems;
 
-            const keyValues = {};
-            Object.assign(keyValues, { header: columnHeader, value: listItems });
-            checkboxFilters.push(keyValues);
-        }
-        if (filter.type === 'dropdown') {
-            columnHeader = filter.columnHeader;
-            listItems = filter.listItems;
-
-            const keyValues = {};
-
-            Object.assign(keyValues, { header: columnHeader, value: listItems });
-            selectFilters.push(keyValues);
-        }
+        const keyValues = {};
+        Object.assign(keyValues, { header: columnHeader, value: listItems });
+        checkboxFilters.push(keyValues);
     });
 }
 
+/** Apply filters as selected */
 function applyFilters() {
     const filterForm = document.getElementById('filters');
 
@@ -236,6 +172,7 @@ function applyFilters() {
                     });
                 });
             }
+
             if (filter.type === 'select-one' && filter.value) {
                 selectFilters.forEach(function (objs) {
                     Object.entries(objs).forEach(function ([key, value]) {
@@ -266,6 +203,7 @@ function applyFilters() {
                     }
                 });
             });
+
             if (geojSelectFilters.length > 0) {
                 const removeIds = [];
                 filteredGeojson.features.forEach(function (feature) {
@@ -316,12 +254,7 @@ function applyFilters() {
     });
 }
 
-function filters(filterSettings) {
-    filterSettings.forEach(function (filter) {
-        buildFilterList(filter.title, filter.listItems);
-    });
-}
-
+/** Remove all filters */
 function removeFilters() {
     let input = document.getElementsByTagName('input');
     let select = document.getElementsByTagName('select');
@@ -342,6 +275,7 @@ function removeFilters() {
     buildLocationList(geojsonData);
 }
 
+/** Create the button to remove all filters */
 function removeFiltersButton() {
     const removeFilter = document.getElementById('removeFilters');
     removeFilter.addEventListener('click', function () {
@@ -353,6 +287,73 @@ createFilterObject(config.filters);
 applyFilters();
 filters(config.filters);
 removeFiltersButton();
+
+// MAP
+
+// basic nav functions
+
+function initialZoom(locationData){
+    let params = new URLSearchParams((document.location.search.substring(1)));
+    let lat = params.get("lat");
+    let lon = params.get("lon");
+    locationData.features.forEach(function (location, i) {
+        if (location.geometry.coordinates[0] + 0.0001 >= lon && location.geometry.coordinates[1] + 0.0001 >= lat &&
+            location.geometry.coordinates[0] - 0.0001 <= lon && location.geometry.coordinates[1] - 0.0001 <= lat) {
+            goToLocation(location);
+        }
+    });
+}
+
+function flyToLocation(currentFeature) {
+    map.flyTo({
+        center: currentFeature,
+        zoom: 15,
+    });
+}
+
+function goToLocation(location) {
+    const clickedListing = location.geometry.coordinates;
+    flyToLocation(clickedListing);
+    createPopup(location);
+
+    const activeItem = document.getElementsByClassName('active');
+    if (activeItem[0]) {
+        activeItem[0].classList.remove('active');
+    }
+    this.parentNode.classList.add('active');
+
+    const divList = document.querySelectorAll('.content');
+    const divCount = divList.length;
+    for (i = 0; i < divCount; i++) {
+        divList[i].style.maxHeight = null;
+    }
+
+    for (let i = 0; i < geojsonData.features.length; i++) {
+        this.parentNode.classList.remove('active');
+        this.classList.toggle('active');
+        const content = this.nextElementSibling;
+        if (content.style.maxHeight) {
+            content.style.maxHeight = null;
+        } else {
+            content.style.maxHeight = content.scrollHeight + 'px';
+        }
+    }
+}
+
+function createPopup(currentFeature) {
+    const popups = document.getElementsByClassName('mapboxgl-popup');
+    // Check if there is already a popup on the map and if so, remove it
+    if (popups[0]) popups[0].remove();
+    info = '<h3>' + currentFeature.properties[config.popupInfo[0]] + '</h3>';
+    for (let i = 1; i < columnHeaders.length; i++) {
+        info += '<p>' + currentFeature.properties[config.popupInfo[i]] + '</p>';
+    }
+
+    const popup = new mapboxgl.Popup({ closeOnClick: true })
+        .setLngLat(currentFeature.geometry.coordinates)
+        .setHTML(info)
+        .addTo(map);
+}
 
 const geocoder = new MapboxGeocoder({
     accessToken: mapboxgl.accessToken, // Set the access token
@@ -419,21 +420,22 @@ map.on('load', function () {
             },
         });
     });
+});
 
-    function makeGeoJSON(csvData) {
-        csv2geojson.csv2geojson(
-            csvData,
-            {
-                latfield: 'Latitude',
-                lonfield: 'Longitude',
-                delimiter: ',',
-            },
-            function (err, data) {
-                data.features.forEach(function (data, i) {
-                    data.properties.id = i;
-                });
-                geojsonData = data;
-                // Add the the layer to the map
+function makeGeoJSON(csvData) {
+    csv2geojson.csv2geojson(
+        csvData,
+        {
+            latfield: 'Latitude',
+            lonfield: 'Longitude',
+            delimiter: ',',
+        },
+        function (err, data) {
+            data.features.forEach(function (data, i) {
+                data.properties.id = i;
+            });
+            geojsonData = data;
+            // Add the the layer to the map
 //                map.addLayer({
 //                    id: 'locationData',
 //                    type: 'circle',
@@ -448,47 +450,46 @@ map.on('load', function () {
 //                        'circle-stroke-width': 1,
 //                        'circle-opacity': 0.7
 //                    },
-                file='parkicon.png';
-                map.loadImage(file, function (error, image) {
-                	map.addImage('park', image);
-                });
-                // Add the the layer to the map
-                map.addLayer({
-                    id: 'locationData',
-                    type: 'symbol',
-                    source: {
-                        type: 'geojson',
-                        data: geojsonData,
-                    },
-					'layout': {
-						'icon-image': 'park',
-						'icon-size': 0.10,
-						'icon-allow-overlap': true
-					},
-                });
-            }
-        );
-
-        map.on('click', 'locationData', function (e) {
-            const features = map.queryRenderedFeatures(e.point, {
-                layers: ['locationData'],
+            file='parkicon.png';
+            map.loadImage(file, function (error, image) {
+                map.addImage('park', image);
             });
-            const clickedPoint = features[0].geometry.coordinates;
-            flyToLocation(clickedPoint);
-            sortByDistance(clickedPoint);
-            createPopup(features[0]);
-        });
+            // Add the the layer to the map
+            map.addLayer({
+                id: 'locationData',
+                type: 'symbol',
+                source: {
+                    type: 'geojson',
+                    data: geojsonData,
+                },
+                'layout': {
+                    'icon-image': 'park',
+                    'icon-size': 0.10,
+                    'icon-allow-overlap': true
+                },
+            });
+        }
+    );
 
-        map.on('mouseenter', 'locationData', function () {
-            map.getCanvas().style.cursor = 'pointer';
+    map.on('click', 'locationData', function (e) {
+        const features = map.queryRenderedFeatures(e.point, {
+            layers: ['locationData'],
         });
+        const clickedPoint = features[0].geometry.coordinates;
+        flyToLocation(clickedPoint);
+        sortByDistance(clickedPoint);
+        createPopup(features[0]);
+    });
 
-        map.on('mouseleave', 'locationData', function () {
-            map.getCanvas().style.cursor = '';
-        });
-        buildLocationList(geojsonData);
-    }
-});
+    map.on('mouseenter', 'locationData', function () {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+
+    map.on('mouseleave', 'locationData', function () {
+        map.getCanvas().style.cursor = '';
+    });
+    buildLocationList(geojsonData);
+}
 
 // Modal - popup for filtering results
 const filterResults = document.getElementById('filterResults');
@@ -510,7 +511,7 @@ const description = document.getElementById('description');
 description.innerText = config.description;
 
 
-// Generates and returns a link for a given location that can be embedded in a social media share link
+/** Generates and returns a link for a given location that can be embedded in a social media share link */
 function get_location_link(currentLocation) {
     var link = window.location.href;
 
@@ -539,17 +540,11 @@ function get_location_link(currentLocation) {
     return link;
 }
 
-function startupZoom() {
-    var url = window.location.href;
-    var parts = url.split("?"); //separate out query strings
-    //use query strings to find a feature name, open popup/zoom on that feature
-}
-
-/*function transformRequest(url, resourceType) {
+function transformRequest(url, resourceType) {
     var isMapboxRequest =
         url.slice(8, 22) === 'api.mapbox.com' ||
         url.slice(10, 26) === 'tiles.mapbox.com';
     return {
         url: isMapboxRequest ? url.replace('?', '?pluginName=finder&') : url,
     };
- }*/
+ }
