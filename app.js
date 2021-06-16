@@ -27,11 +27,9 @@ function createPopup(currentFeature) {
     const popups = document.getElementsByClassName('mapboxgl-popup');
     /** Check if there is already a popup on the map and if so, remove it */
     if (popups[0]) popups[0].remove();
+
     info = '<h3>' + currentFeature.properties[config.popupInfo[0]] + '</h3>';
-    for (let i = 1; i < columnHeaders.length; i++) {
-    	info += '<p>' + currentFeature.properties[config.popupInfo[i]] + '</p>';
-}
-        
+
     const popup = new mapboxgl.Popup({ closeOnClick: true })
         .setLngLat(currentFeature.geometry.coordinates)
         .setHTML(info)
@@ -52,26 +50,33 @@ function buildLocationList(locationData) {
         /* Assign the `item` class to each listing for styling. */
         listing.className = 'item';
 
-        /* Add the link to the individual listing created above. */
-        const link = listing.appendChild(document.createElement('button'));
-        link.className = 'title';
-        link.id = 'link-' + prop.id;
-        link.innerHTML =
-            '<p style="line-height: 1.25">' + prop[columnHeaders[0]] + '</p>';
+        //create columns in sidebar
+        listing.classList.add('row');
+        leftSide = listing.appendChild(document.createElement('div'));
+        leftSide.className = 'column';
+        leftSide.style = 'margin-bottom: 5px';
 
-        const image = listing.appendChild(document.createElement('img'));
-        image.src = 'coverimage/' + prop[columnHeaders[1]];
+        image = leftSide.appendChild(document.createElement('img'));
+        image.src = 'coverimages/' + prop[columnHeaders[1]];
+
+        rightSide = listing.appendChild(document.createElement('div'));
+        rightSide.style = 'margin-left: 5px;';
+        rightSide.className = 'column';
+
+        /* Add the link to the individual listing created above. */
+        const link = rightSide.appendChild(document.createElement('button'));
+        link.className = 'title';
+        link.id = 'innerlink-' + prop.id;
+        link.innerHTML =
+            '<p style="line-height: 1.25">' + prop[columnHeaders[0]] +'</p>';
 
         /* Add details to the individual listing. */
-        const details = listing.appendChild(document.createElement('div'));
-        details.className = 'content';
+        const details1 = rightSide.appendChild(document.createElement('div'));
+        details1.innerHTML += '<p style="color: #7F7F7F;">'+ prop[columnHeaders[2]] +'</p>';
 
-        for (let i = 2; i < columnHeaders.length; i++) {
-            const div = document.createElement('div');
-            div.innerText += prop[columnHeaders[i]];
-            div.className;
-            details.appendChild(div);
-        }
+        const details2 = rightSide.appendChild(document.createElement('div'));
+        details2.innerHTML += '<p style="color: #000000;">'+ prop[columnHeaders[3]] +'</p>';
+        details2.innerHTML += '<a href= '+ prop[columnHeaders[4]] +' > More Info </a>';
 
         link.addEventListener('click', function () {
             const clickedListing = location.geometry.coordinates;
@@ -448,26 +453,21 @@ map.on('load', function () {
                     data.properties.id = i;
                 });
                 geojsonData = data;
-                // Add the the layer to the map
-//                map.addLayer({
-//                    id: 'locationData',
-//                    type: 'circle',
-//                    source: {
-//                        type: 'geojson',
-//                        data: geojsonData,
-//                    },
-//                    paint: {
-//                        'circle-radius': 5, // size of circles
-//                        'circle-color': '#3D2E5D', // color of circles
-//                        'circle-stroke-color': 'white',
-//                        'circle-stroke-width': 1,
-//                        'circle-opacity': 0.7
-//                    },
                 file='parkicon.png';
                 map.loadImage(file, function (error, image) {
-                	map.addImage('park', image);
+                	map.addImage('Park', image);
                 });
-                // Add the the layer to the map
+                geojsonData = data;
+                file='urbanparkicon.png';
+                map.loadImage(file, function (error, image) {
+                	map.addImage('Urban Park', image);
+                });
+                geojsonData = data;
+                file='pocketparkicon.png';
+                map.loadImage(file, function (error, image) {
+                	map.addImage('Pocket Park', image);
+                });
+
                 map.addLayer({
                     id: 'locationData',
                     type: 'symbol',
@@ -476,7 +476,7 @@ map.on('load', function () {
                         data: geojsonData,
                     },
 					'layout': {
-						'icon-image': 'park',
+						'icon-image': ['get','Subsize'],
 						'icon-size': 0.10,
 						'icon-allow-overlap': true
 					},
