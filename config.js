@@ -30,9 +30,9 @@ const config = {
         },
         {
             type: "checkbox",
-            title: "Infustructure:",
-            columnHeader: "Infustructure",
-            listItems: ["Sports Facilites", "Zoo", "Farm", "Farmer Market", "Plant Conservatory", "Public Art", "Playground", "None"]
+            title: "Infrastructure:",
+            columnHeader: "Infrastructure",
+            listItems: ["Sports Facilities", "Zoo", "Farm", "Farmer Market", "Plant Conservatory", "Public Art", "Playground", "None"]
         },
         {
             type: "checkbox",

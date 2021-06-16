@@ -342,12 +342,12 @@ function goToLocation(location) {
 
 function createPopup(currentFeature) {
     const popups = document.getElementsByClassName('mapboxgl-popup');
-    // Check if there is already a popup on the map and if so, remove it
+    /** Check if there is already a popup on the map and if so, remove it */
     if (popups[0]) popups[0].remove();
+
     info = '<h3>' + currentFeature.properties[config.popupInfo[0]] + '</h3>';
-    for (let i = 1; i < columnHeaders.length; i++) {
-        info += '<p>' + currentFeature.properties[config.popupInfo[i]] + '</p>';
-    }
+
+    info += createTwt(currentFeature);
 
     const popup = new mapboxgl.Popup({ closeOnClick: true })
         .setLngLat(currentFeature.geometry.coordinates)
@@ -512,19 +512,19 @@ description.innerText = config.description;
 
 
 /** Generates and returns a link for a given location that can be embedded in a social media share link */
-function get_location_link(currentLocation) {
+function getLocationLink(currentLocation) {
     var link = window.location.href;
 
     // Convert link into information that can be embedded into another link
-    while (link.contains("/")) {
-        link.replace("/", "%2F");
+    while (link.includes("/")) {
+        link = link.replace("/", "%2F");
     }
-    while (link.contains(":")) {
-        link.replace(":", "%3A");
+    while (link.includes(":")) {
+        link = link.replace(":", "%3A");
     }
-    if (link.contains("?")) {
-        while (link.contains("?")) {
-            link.replace("?", "%3F");
+    if (link.includes("?")) {
+        while (link.includes("?")) {
+            link = link.replace("?", "%3F");
         }
         link += "%26";
     } else {
@@ -538,6 +538,15 @@ function get_location_link(currentLocation) {
     link += currentLocation.geometry.coordinates[0];
 
     return link;
+}
+
+function createTwt(currentLocation) {
+    let text = "<button id='tweet' class='txt-bold btn btn--stroke mr0-ml mr12 px18-ml px6'>\n" +
+        "<a href=\"https://twitter.com/intent/tweet?original_referer=https%3A%2F%2Fpublish.twitter.com%2F&amp;" +
+        "ref_src=twsrc%5Etfw&amp;text=Just%20visiting!&amp;tw_p=tweetbutton&amp;url=";
+    text += getLocationLink(currentLocation);
+    text += "\" class=\"btn\" id=\"b\"><i></i><span class=\"label\" id=\"l\">Tweet</span></a></button>";
+    return text;
 }
 
 function transformRequest(url, resourceType) {
