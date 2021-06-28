@@ -2,6 +2,10 @@
 mapboxgl.accessToken = config.accessToken;
 const columnHeaders = config.sideBarInfo;
 
+const iconPath = "../lib/img/icons/";
+const coverImgPath = "../lib/img/coverimages/";
+const subpagePath = "../src/subpages/";
+
 let geojsonData = {};
 const filteredGeojson = {
     type: 'FeatureCollection',
@@ -39,7 +43,7 @@ function buildLocationList(locationData) {
         leftSide.style = 'margin-bottom: 5px';
 
         image = leftSide.appendChild(document.createElement('img'));
-        image.src = 'coverimages/' + prop[columnHeaders[1]];
+        image.src = coverImgPath + prop[columnHeaders[1]];
 
         rightSide = listing.appendChild(document.createElement('div'));
         rightSide.style = 'margin-left: 5px;';
@@ -58,41 +62,12 @@ function buildLocationList(locationData) {
 
         const details2 = rightSide.appendChild(document.createElement('div'));
         details2.innerHTML += '<p style="color: #000000;">'+ prop[columnHeaders[3]] +'</p>';
-        details2.innerHTML += '<a href= '+ prop[columnHeaders[4]] +' > More Info </a>';
+        details2.innerHTML += "<a href=" + subpagePath + prop[columnHeaders[4]] +' > More Info </a>';
 
-        link.addEventListener('click', sidebarToLocation.bind(this, location));
+        link.addEventListener('click', goToLocation.bind(this, location));
     });
 
     initialZoom(locationData);
-}
-
-function sidebarToLocation(location) {
-    const clickedListing = location.geometry.coordinates;
-    flyToLocation(clickedListing);
-    createPopup(location);
-
-    const activeItem = document.getElementsByClassName('active');
-    if (activeItem[0]) {
-        activeItem[0].classList.remove('active');
-    }
-    this.parentNode.classList.add('active'); //type error fix
-
-    const divList = document.querySelectorAll('.content');
-    const divCount = divList.length;
-    for (i = 0; i < divCount; i++) {
-        divList[i].style.maxHeight = null;
-    }
-
-    for (let i = 0; i < geojsonData.features.length; i++) {
-        this.parentNode.classList.remove('active');
-        this.classList.toggle('active');
-        const content = this.nextElementSibling;
-        if (content.style.maxHeight) {
-            content.style.maxHeight = null;
-        } else {
-            content.style.maxHeight = content.scrollHeight + 'px';
-        }
-    }
 }
 
 // FILTERS
@@ -327,6 +302,35 @@ removeFiltersButton();
 
 // basic nav functions
 
+function goToLocation(location) {
+    const clickedListing = location.geometry.coordinates;
+    flyToLocation(clickedListing);
+    createPopup(location);
+
+    const activeItem = document.getElementsByClassName('active');
+    if (activeItem[0]) {
+        activeItem[0].classList.remove('active');
+    }
+    this.parentNode.classList.add('active'); //type error fix
+
+    const divList = document.querySelectorAll('.content');
+    const divCount = divList.length;
+    for (i = 0; i < divCount; i++) {
+        divList[i].style.maxHeight = null;
+    }
+
+    for (let i = 0; i < geojsonData.features.length; i++) {
+        this.parentNode.classList.remove('active');
+        this.classList.toggle('active');
+        const content = this.nextElementSibling;
+        if (content.style.maxHeight) {
+            content.style.maxHeight = null;
+        } else {
+            content.style.maxHeight = content.scrollHeight + 'px';
+        }
+    }
+}
+
 function initialZoom(locationData){
     let params = new URLSearchParams((document.location.search.substring(1)));
     let lat = params.get("lat");
@@ -441,17 +445,17 @@ function makeGeoJSON(csvData) {
                 data.properties.id = i;
             });
             geojsonData = data;
-            file='parkicon.png';
+            file = iconPath + 'parkicon.png';
             map.loadImage(file, function (error, image) {
                 map.addImage('Park', image);
             });
             geojsonData = data;
-            file='urbanparkicon.png';
+            file = iconPath + 'urbanparkicon.png';
             map.loadImage(file, function (error, image) {
                 map.addImage('Urban Park', image);
             });
             geojsonData = data;
-            file='pocketparkicon.png';
+            file = iconPath + 'pocketparkicon.png';
             map.loadImage(file, function (error, image) {
                 map.addImage('Pocket Park', image);
             });
@@ -529,7 +533,7 @@ function getLocationLink(currentLocation) {
         }
         link += "%26";
     } else {
-        link += "CODE";
+        link += "%3F";
     }
 
     // Add location data
