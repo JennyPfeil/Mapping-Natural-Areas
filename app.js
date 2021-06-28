@@ -60,35 +60,39 @@ function buildLocationList(locationData) {
         details2.innerHTML += '<p style="color: #000000;">'+ prop[columnHeaders[3]] +'</p>';
         details2.innerHTML += '<a href= '+ prop[columnHeaders[4]] +' > More Info </a>';
 
-        link.addEventListener('click', function () {
-            const clickedListing = location.geometry.coordinates;
-            flyToLocation(clickedListing);
-            createPopup(location);
-
-            const activeItem = document.getElementsByClassName('active');
-            if (activeItem[0]) {
-                activeItem[0].classList.remove('active');
-            }
-            this.parentNode.classList.add('active');
-
-            const divList = document.querySelectorAll('.content');
-            const divCount = divList.length;
-            for (i = 0; i < divCount; i++) {
-                divList[i].style.maxHeight = null;
-            }
-
-            for (let i = 0; i < geojsonData.features.length; i++) {
-                this.parentNode.classList.remove('active');
-                this.classList.toggle('active');
-                const content = this.nextElementSibling;
-                if (content.style.maxHeight) {
-                    content.style.maxHeight = null;
-                } else {
-                    content.style.maxHeight = content.scrollHeight + 'px';
-                }
-            }
-        });
+        link.addEventListener('click', sidebarToLocation.bind(this, location));
     });
+
+    initialZoom(locationData);
+}
+
+function sidebarToLocation(location) {
+    const clickedListing = location.geometry.coordinates;
+    flyToLocation(clickedListing);
+    createPopup(location);
+
+    const activeItem = document.getElementsByClassName('active');
+    if (activeItem[0]) {
+        activeItem[0].classList.remove('active');
+    }
+    this.parentNode.classList.add('active'); //type error fix
+
+    const divList = document.querySelectorAll('.content');
+    const divCount = divList.length;
+    for (i = 0; i < divCount; i++) {
+        divList[i].style.maxHeight = null;
+    }
+
+    for (let i = 0; i < geojsonData.features.length; i++) {
+        this.parentNode.classList.remove('active');
+        this.classList.toggle('active');
+        const content = this.nextElementSibling;
+        if (content.style.maxHeight) {
+            content.style.maxHeight = null;
+        } else {
+            content.style.maxHeight = content.scrollHeight + 'px';
+        }
+    }
 }
 
 // FILTERS
@@ -342,35 +346,6 @@ function flyToLocation(currentFeature) {
     });
 }
 
-function goToLocation(location) {
-    const clickedListing = location.geometry.coordinates;
-    flyToLocation(clickedListing);
-    createPopup(location);
-
-    const activeItem = document.getElementsByClassName('active');
-    if (activeItem[0]) {
-        activeItem[0].classList.remove('active');
-    }
-    this.parentNode.classList.add('active');
-
-    const divList = document.querySelectorAll('.content');
-    const divCount = divList.length;
-    for (i = 0; i < divCount; i++) {
-        divList[i].style.maxHeight = null;
-    }
-
-    for (let i = 0; i < geojsonData.features.length; i++) {
-        this.parentNode.classList.remove('active');
-        this.classList.toggle('active');
-        const content = this.nextElementSibling;
-        if (content.style.maxHeight) {
-            content.style.maxHeight = null;
-        } else {
-            content.style.maxHeight = content.scrollHeight + 'px';
-        }
-    }
-}
-
 function createPopup(currentFeature) {
     const popups = document.getElementsByClassName('mapboxgl-popup');
     /** Check if there is already a popup on the map and if so, remove it */
@@ -378,7 +353,7 @@ function createPopup(currentFeature) {
 
     info = '<h3>' + currentFeature.properties[config.popupInfo[0]] + '</h3>';
 
-    info += createTwt(currentFeature);
+    info += createSocials(currentFeature);
 
     const popup = new mapboxgl.Popup({ closeOnClick: true })
         .setLngLat(currentFeature.geometry.coordinates)
@@ -566,13 +541,15 @@ function getLocationLink(currentLocation) {
     return link;
 }
 
-function createTwt(currentLocation) {
-    let text = "<button id='tweet' class='txt-bold btn btn--stroke mr0-ml mr12 px18-ml px6'>\n" +
+function createSocials(currentLocation) {
+    let link = getLocationLink(currentLocation);
+
+    let twt = "<button id='tweet' class='txt-bold btn btn--stroke mr0-ml mr12 px18-ml px6'>\n" +
         "<a href=\"https://twitter.com/intent/tweet?original_referer=https%3A%2F%2Fpublish.twitter.com%2F&amp;" +
-        "ref_src=twsrc%5Etfw&amp;text=Just%20visiting!&amp;tw_p=tweetbutton&amp;url=";
-    text += getLocationLink(currentLocation);
-    text += "\" class=\"btn\" id=\"b\"><i></i><span class=\"label\" id=\"l\">Tweet</span></a></button>";
-    return text;
+        "ref_src=twsrc%5Etfw&amp;text=Just%20visiting!&amp;tw_p=tweetbutton&amp;url=" + link +
+        "\" class=\"btn\" id=\"b\"><i></i><span class=\"label\" id=\"l\">Tweet</span></a></button>";
+
+    return twt;
 }
 
 function transformRequest(url, resourceType) {
