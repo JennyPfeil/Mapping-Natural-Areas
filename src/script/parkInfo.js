@@ -48,24 +48,32 @@ function buildLocationList(locationData) {
 
 /** Returns the HTML that should go inside a popup */
 function popupInfo(currentLocation) {
-    return '<h3>' + currentLocation.properties[config.popupInfo[0]] + buildSocials(currentLocation) +'</h3>';
+    return '<h3>' + currentLocation.properties[config.popupInfo[0]] + '</h3>'+ buildSocials(currentLocation);
 }
 
 /** Generates and returns the HTML for a bar of social media links */
 function buildSocials(currentLocation) {
-    let link = getLocationLink(currentLocation);
+    let link_url = getLocationLink(currentLocation, true);
+    let link = getLocationLink(currentLocation, false);
 
     let twt = "<button id='tweet' class='txt-bold btn btn--stroke mr0-ml mr12 px18-ml px6'>\n" +
         "<a href=\"https://twitter.com/intent/tweet?original_referer=https%3A%2F%2Fpublish.twitter.com%2F&amp;" +
-        "ref_src=twsrc%5Etfw&amp;text=Just%20visiting!&amp;tw_p=tweetbutton&amp;url=" + link +
+        "ref_src=twsrc%5Etfw&amp;text=Just%20visiting!&amp;tw_p=tweetbutton&amp;url=" +
+        link_url +
         "\" class=\"btn\" id=\"b\"><i></i><span class=\"label\" id=\"l\">Tweet</span></a></button>";
 
-    return twt;
+    let group = "<div class=\"social-buttons\">\n" + twt + "</div>";
+
+    return group;
 }
 
 /** Generates and returns a link for a given location that can be embedded in a social media share link */
-function getLocationLink(currentLocation) {
+function getLocationLink(currentLocation, forURL) {
     var link = window.location.href;
+
+    if (!forURL) {
+        return link;
+    }
 
     // Convert link into information that can be embedded into another link
     while (link.includes("/")) {

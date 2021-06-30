@@ -19,18 +19,24 @@
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
     <script src='https://npmcdn.com/csv2geojson@latest/csv2geojson.js'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <link rel='stylesheet' href="../style.css" />
+    <link rel='stylesheet' href="style.css" />
 </head>
 
 <body>
+<!-- Social sources -->
 <!-- Navbar -->
     <div class="topnav">
         <a href="subpages/homepage.html">Homepage</a>
         <a href="index.html">Map</a>
         <a href="subpages/errorpage.html" style="float:right">Search</a>
+        <div class="fb-share-button"
+             data-href="https://www.your-domain.com/your-page.html"
+             data-layout="button_count">
+        </div>
     </div>
-<!-- sidebar -->
     <div class='flex-parent viewport-full relative scroll-hidden'>
+
+        <!-- sidebar -->
         <div class='flex-child w-full w360-ml absolute static-ml left bottom'>
             <div class='flex-parent flex-parent--column viewport-third bg-white'>
                 <div class='flex-child flex-child--grow'>
@@ -52,33 +58,35 @@
                 </div>
             </div>
         </div>
-<!-- map -->
-        <div class='flex-child flex-child--grow w-auto viewport-full-ml viewport-twothirds' id='map'>
-        </div>
-<!-- filter popup -->
-        <div id='modal'
-            class='absolute top right bottom left flex-parent flex-parent--center-main hide-visually'>
-            <div class='flex-child w-full w360-ml absolute bottom left'>
-            <div class='flex-parent flex-parent--column viewport-full bg-white'>
-            <div class='flex-child flex-child--grow bg-white round relative scroll-auto'>
-            <div class='pt1'>
-                    <button id='exitButton' class='absolute top right px12 py12'>
-                        <svg class='icon link color-darken50'>
-                            <use xlink:href='#icon-close'></use>
-                        </svg>
-                    </button>
-                    <div class='px24 py24'>
-                        <form id="filters"></form>
-                        <div class='align-center py12'></div>
-                        <div class="flex-parent flex-parent--center-main">
-                            <button id="removeFilters" class='txt-bold btn btn--green-light btn--stroke-light75 mr0-ml mr12 px18-ml px6'>Reset Filters</button>
-                        </div>
+
+    <!-- map -->
+    <div class='flex-child flex-child--grow w-auto viewport-full-ml viewport-twothirds' id='map'>
+    </div>
+
+    <!-- filter popup -->
+    <div id='modal'
+        class='absolute top right bottom left flex-parent flex-parent--center-main hide-visually'>
+        <div class='flex-child w-full w360-ml absolute bottom left'>
+        <div class='flex-parent flex-parent--column viewport-full bg-white'>
+        <div class='flex-child flex-child--grow bg-white round relative scroll-auto'>
+        <div class='pt1'>
+                <button id='exitButton' class='absolute top right px12 py12'>
+                    <svg class='icon link color-darken50'>
+                        <use xlink:href='#icon-close'></use>
+                    </svg>
+                </button>
+                <div class='px24 py24'>
+                    <form id="filters"></form>
+                    <div class='align-center py12'></div>
+                    <div class="flex-parent flex-parent--center-main">
+                        <button id="removeFilters" class='txt-bold btn btn--green-light btn--stroke-light75 mr0-ml mr12 px18-ml px6'>Reset Filters</button>
                     </div>
-            </div>
-            </div>
-            </div>
-            </div>
+                </div>
         </div>
+        </div>
+        </div>
+        </div>
+    </div>
 
 
     </div>

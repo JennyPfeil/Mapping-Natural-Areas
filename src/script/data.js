@@ -50,10 +50,8 @@ function makeGeoJSON(csvData) {
         const features = map.queryRenderedFeatures(e.point, {
             layers: ['locationData'],
         });
-        const clickedPoint = features[0].geometry.coordinates;
-        flyToLocation(clickedPoint);
-        sortByDistance(clickedPoint);
-        createPopup(features[0]);
+
+        goToLocation(features[0]); //TODO: use this for url!!
     });
 
     map.on('mouseenter', 'locationData', function () {

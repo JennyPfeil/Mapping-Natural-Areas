@@ -26,6 +26,7 @@ function initialZoom(locationData){
 function goToLocation(location) {
     const clickedListing = location.geometry.coordinates;
     flyToLocation(clickedListing);
+    sortByDistance(clickedListing);
     createPopup(location, popupInfo);
 
     const activeItem = document.getElementsByClassName('active');
