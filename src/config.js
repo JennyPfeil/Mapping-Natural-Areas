@@ -1,3 +1,5 @@
+const coverImgPath = "../lib/img/coverimages/";
+const subpagePath = "../src/subpages/";
 
 const config = {
     style: "mapbox://styles/mapbox/light-v10",
