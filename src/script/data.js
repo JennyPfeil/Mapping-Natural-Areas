@@ -1,6 +1,8 @@
 var geojsonData = {};
 const iconPath = "../lib/img/icons/";
 
+const pageURL = window.location.href.split("?")[0];
+
 /** Turn the data in the csv file into geoJSON format */
 function makeGeoJSON(csvData) {
     csv2geojson.csv2geojson(
@@ -51,8 +53,8 @@ function makeGeoJSON(csvData) {
             layers: ['locationData'],
         });
 
-        goToLocation(features[0]); //TODO: use this for url!!
-    });
+        goToLocation(features[0], popupInfo(features[0])); //TODO: use this for url!!
+    }); // right? click
 
     map.on('mouseenter', 'locationData', function () {
         map.getCanvas().style.cursor = 'pointer';

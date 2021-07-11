@@ -16,14 +16,14 @@ function initialZoom(locationData){
     let lat = params.get("lat");
     let lon = params.get("lon");
     locationData.features.forEach(function (location, i) {
-        if (location.geometry.coordinates[0] + 0.0001 >= lon && location.geometry.coordinates[1] + 0.0001 >= lat &&
-            location.geometry.coordinates[0] - 0.0001 <= lon && location.geometry.coordinates[1] - 0.0001 <= lat) {
-            goToLocation(location);
+        if (location.geometry.coordinates[0] + 0.00001 >= lon && location.geometry.coordinates[1] + 0.00001 >= lat
+            && location.geometry.coordinates[0] - 0.00001 <= lon && location.geometry.coordinates[1] - 0.00001 <= lat) {
+            goToLocation(location, popupInfo(location));
         }
     });
 }
 
-function goToLocation(location) {
+function goToLocation(location, popupInfo) {
     const clickedListing = location.geometry.coordinates;
     flyToLocation(clickedListing);
     sortByDistance(clickedListing);
@@ -33,6 +33,7 @@ function goToLocation(location) {
     if (activeItem[0]) {
         activeItem[0].classList.remove('active');
     }
+
     this.parentNode.classList.add('active'); //type error fix
 
     const divList = document.querySelectorAll('.content');
@@ -60,15 +61,17 @@ function flyToLocation(currentFeature) {
     });
 }
 
-function createPopup(currentFeature) {
+function createPopup(currentFeature, popupInfo) {
     const popups = document.getElementsByClassName('mapboxgl-popup');
     /** Check if there is already a popup on the map and if so, remove it */
     if (popups[0]) popups[0].remove();
 
-    let info = popupInfo(currentFeature);
+    let info = popupInfo;
 
     const popup = new mapboxgl.Popup({ closeOnClick: true })
         .setLngLat(currentFeature.geometry.coordinates)
         .setHTML(info)
         .addTo(map);
+
+    twttr.widgets.load(document.getElementById("social-buttons"));
 }
