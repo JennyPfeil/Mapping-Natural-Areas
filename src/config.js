@@ -1,8 +1,10 @@
+const coverImgPath = "../lib/img/coverimages/";
+const subpagePath = "../src/subpages/";
 
 const config = {
     style: "mapbox://styles/mapbox/light-v10",
     accessToken: "pk.eyJ1IjoiamVubmlmZXJwZmVpbCIsImEiOiJja2puNzZpdW0wcjN6MnluMDY0MWQyM21pIn0.qfZ6ocRVbznPiGbB-omH3Q",
-    CSV: "naturalareasdata.csv",
+    CSV: "../lib/naturalareasdata.csv",
     center: [-79.39775965337452,43.663461999999996], //Lng, Lat
     zoom: 11, //Default zoom
     title: "Natural Areas Database",
@@ -30,9 +32,9 @@ const config = {
         },
         {
             type: "checkbox",
-            title: "Infustructure:",
-            columnHeader: "Infustructure",
-            listItems: ["Sports Facilites", "Zoo", "Farm", "Farmer Market", "Plant Conservatory", "Public Art", "Playground", "None"]
+            title: "Infrastructure:",
+            columnHeader: "Infrastructure",
+            listItems: ["Sports Facilities", "Zoo", "Farm", "Farmer Market", "Plant Conservatory", "Public Art", "Playground", "None"]
         },
         {
             type: "checkbox",
