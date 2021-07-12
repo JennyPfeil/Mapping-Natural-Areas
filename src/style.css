@@ -5,6 +5,7 @@
 #body{
     width: 100%;
     height: 100%;
+    overflow: hidden; /* Hide scrollbars */
 }
 
 #filterResults{
@@ -104,6 +105,11 @@
 
 .mapboxgl-popup-close-button {
     display: none;
+    /* content: 'x';
+    text-align: right;
+    margin-right: 7px;
+    font-size: 10px;
+    color: #888888; */
   }
 
 .mapboxgl-popup-content h3 {
@@ -111,7 +117,12 @@
     font-weight: 500;
     margin: 0;
     display: block;
-  }
+}
+
+.social-bar {
+    text-align: center;
+    margin: 5px;
+}
 
 .row {
   display: flex;
