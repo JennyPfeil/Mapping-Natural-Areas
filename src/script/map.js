@@ -34,7 +34,11 @@ function goToLocation(location, popupInfo) {
         activeItem[0].classList.remove('active');
     }
 
-    this.parentNode.classList.add('active'); //type error fix
+    const popup = document.getElementsByClassName('mapboxgl-popup');
+    if (popup[0]) {
+        popup[0].classList.add('active');
+    }
+
 
     const divList = document.querySelectorAll('.content');
     const divCount = divList.length;
@@ -42,6 +46,7 @@ function goToLocation(location, popupInfo) {
         divList[i].style.maxHeight = null;
     }
 
+    /*
     for (let i = 0; i < geojsonData.features.length; i++) {
         this.parentNode.classList.remove('active');
         this.classList.toggle('active');
@@ -51,7 +56,7 @@ function goToLocation(location, popupInfo) {
         } else {
             content.style.maxHeight = content.scrollHeight + 'px';
         }
-    }
+    }*/
 }
 
 function flyToLocation(currentFeature) {
@@ -74,4 +79,5 @@ function createPopup(currentFeature, popupInfo) {
         .addTo(map);
 
     twttr.widgets.load(document.getElementById("social-buttons"));
+
 }

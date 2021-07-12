@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel='stylesheet' href="../style.css" />
+<body>
+
+<!-- Navbar -->
+<div class="topnav">
+    <a href="homepage.html">Homepage</a>
+    <a href="../index.html">Map</a>
+    <a href="aboutpage.html">About</a>
+    <a href="contactpage.html">Contact Us</a>
+    <a href="errorpage.html" style="float:right">Search</a>
+</div>
+<!-- content -->
+
+<!-- Header -->
+<header class="w3-display-container w3-content w3-wide" style="max-width:1500px;" id="home">
+    <img class="w3-image" src="../../lib/img/homepageimage.png" alt="homepage" width="1500" height="750">
+    <div class="w3-display-middle w3-margin-top w3-center">
+        <h1 class="w3-xxlarge w3-text-white"><span class="w3-hide-small w3-text-light-grey">Natural Areas Mapping Project</span></h1>
+    </div>
+</header>
+
+<!-- Page content -->
+<div class="w3-content w3-padding" style="max-width:1564px">
+
+    <!-- Form -->
+    <div class="w3-container w3-padding-32" id="title">
+        <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Contact Us</h3>
+    </div>
+
+
+    <div class="w3-container w3-padding-16">
+        Hi!<br>
+        This is a project for and by the students of U of T - and, therefore, we are always looking for feedback to
+        improve it.<br>
+        Please send us your concerns using the form below!<br><br><br>
+        <div class="w3-container w3-padding-16">
+            <form action="mailto:thewayfindingproject@gmail.com" method="get" enctype="text/plain">
+                <label for="subject">What's your concern?</label><br><br>
+                <select id="subject" name="subject">
+                    <option name="wrongInfo">The map shows incorrect information</option>
+                    <option name="pageBroken">The webpage is broken</option>
+                    <option name="newPark">We should add a new park</option>
+                    <option name="newData">We should add a new type of data</option>
+                    <option name="accessibility">There's an accessibility issue with the website</option>
+                    <option name="accessibility">There's an accessibility issue with the map data</option>
+                    <option name="misc">Other</option>
+                </select><br><br>
+                <label for="body">Tell us more.</label><br><br>
+                <textarea id="body" name="body" rows="6" cols="10"></textarea><br><br>
+                <input type="submit">
+            </form>
+        </div>
+    </div>
+
+    <!-- End page content -->
+</div>
+
+
+<!-- Footer -->
+<footer class="w3-center w3-black w3-padding-16">
+    <p>made by me</p>
+</footer>
+
+</body>
+</html>

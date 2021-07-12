@@ -3,6 +3,12 @@
 
 <head>
     <title></title>
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content="Trin Sustainability Wayfinding Project" />
+    <meta property="og:description"   content="A website for U of T students to find greenspaces near them." />
+    <meta name="twitter:card" content="summary">
+    <meta property="og:image" content="../lib/img/coverimages/coverimage1.JPG">
+
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script id="twitter-wjs" src="https://platform.twitter.com/widgets.js"></script>
@@ -29,9 +35,11 @@
     <div class="topnav">
         <a href="subpages/homepage.html">Homepage</a>
         <a href="index.html">Map</a>
+        <a href="subpages/aboutpage.html">About</a>
+        <a href="subpages/contactpage.html">Contact Us</a>
         <a href="subpages/errorpage.html" style="float:right">Search</a>
     </div>
-    <div class='flex-parent viewport-full relative scroll-hidden'>
+    <div class='flex-parent viewport-full relative scroll-clip'>
 
         <!-- sidebar -->
         <div class='flex-child w-full w360-ml absolute static-ml left bottom'>
@@ -114,5 +122,17 @@
 
     return t;
 }(document, "script", "twitter-wjs"));</script>
+
+<!-- Facebook load -->
+<script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+    fjs.parentNode.insertBefore(js, fjs);
+
+    return;
+    }(document, 'script', 'facebook-jssdk'));</script>
 
 </html>
