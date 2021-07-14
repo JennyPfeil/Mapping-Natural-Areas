@@ -53,11 +53,18 @@ function popupInfo(currentLocation) {
 
 /** Generates and returns the HTML for a bar of social media links */
 function buildSocials(currentLocation) {
-    let twt = "<a class=\"twitter-share-button\"\n" +
-        "  href=\"https://twitter.com/intent/tweet?text=Just%20visiting!&amp;url=" +
-        getLocationLink(currentLocation) + "&amp;hashtags=nature\">\n" + "Tweet</a>";
+    let twt = "<a href=\"https://twitter.com/intent/tweet?text=Just%20visiting!&amp;url=" +
+        getLocationLink(currentLocation) + "&amp;hashtags=nature\">\n" +
+        "<img class='social-icon' src='../lib/img/icons/tw_button.png' alt='Twitter' width='30' height='30'></a>";
 
-    let group = "<div id=\"social-buttons\" class=\"social-bar\">\n" + twt + "</div>";
+    let fb = "<script>function fbs_click() {u=location.href;t=document.title;window.open" +
+        "('http://www.facebook.com/sharer.php?u='+encodeURIComponent(u)+'&t='+encodeURIComponent(t)," +
+        "'sharer','toolbar=0,status=0,width=626,height=436');return false;}</script>" +
+        "<a href=\"subpages/errorpage.html\">" +
+        "<img class='social-icon' src='../lib/img/icons/fb_button.png' alt='Facebook' width='30' height='30'/></a>";
+
+    let group = "<div id=\"social-buttons\" class=\"social-bar\">\n " +
+        "Share this location! <div>" + twt + fb + "</div></div>";
 
     return group;
 }

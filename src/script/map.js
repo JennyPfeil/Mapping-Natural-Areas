@@ -78,6 +78,6 @@ function createPopup(currentFeature, popupInfo) {
         .setHTML(info)
         .addTo(map);
 
-    twttr.widgets.load(document.getElementById("social-buttons"));
+    twttr.widgets.load(document.getElementById("social-buttons")); // TODO: IF NOT LOADED... DO SMTHN
 
 }
